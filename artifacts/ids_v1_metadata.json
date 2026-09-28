@@ -1,8 +1,7 @@
 {
-  "version": "ids-v1",
-  "created_utc": "2026-09-17T12:33:49.640989+00:00",
-  "dataset": "CIC-IDS2017 (MachineLearningCSV / CICFlowMeter flow records)",
-  "task": "binary flow classification (0=BENIGN, 1=ATTACK)",
+  "version": "V1",
+  "dataset": "CICIDS2017 MachineLearningCVE",
+  "task": "binary flow classification",
   "development_files": [
     "Monday-WorkingHours.pcap_ISCX.csv",
     "Tuesday-WorkingHours.pcap_ISCX.csv",
@@ -17,92 +16,47 @@
   ],
   "n_features": 48,
   "model": "RandomForestClassifier",
-  "model_params": {
-    "n_estimators": 200,
-    "criterion": "gini",
-    "max_features": "sqrt",
-    "min_samples_leaf": 1,
-    "n_jobs": -1,
-    "random_state": 42,
-    "bootstrap": true
-  },
+  "n_estimators": 200,
   "random_state": 42,
-  "n_train_flows": 603806,
-  "n_validation_flows": 476551,
-  "n_test_flows": 703245,
-  "benign_downsample_train": 450000,
-  "threshold_primary": 0.63,
-  "threshold_sensitive": 0.015,
-  "validation_metrics": {
-    "model": "FINAL @ THRESHOLD_F1",
-    "threshold": 0.63,
-    "accuracy": 0.9995866129753164,
-    "precision": 0.9981856490694135,
-    "recall": 0.9979714837426125,
-    "f1": 0.9980785549172413,
-    "roc_auc": 0.9999811946393582,
-    "pr_auc": 0.9998491852221003,
-    "TP": 51165.0,
-    "FP": 93.0,
-    "TN": 425189.0,
-    "FN": 104.0,
-    "FP_rate": 0.00021867842984184613,
-    "FN_rate": 0.002028516257387505
+  "decision_threshold": 0.5149999999999999,
+  "unseen_family_model": {
+    "training": "Monday\u2013Thursday",
+    "training_rows": 603817,
+    "validation_rows": 488224,
+    "friday_metrics": {
+      "threshold": 0.5149999999999999,
+      "accuracy": 0.6203968744889761,
+      "precision": 0.9945077207040922,
+      "recall": 0.07645981801379606,
+      "f1": 0.14200221125167128,
+      "roc_auc": 0.7088557956245448,
+      "pr_auc": 0.6703037839504954,
+      "TN": 414200.0,
+      "FP": 122.0,
+      "FN": 266832.0,
+      "TP": 22091.0,
+      "FPR": 0.0002944569682517462
+    },
+    "artifact": "artifacts/ids_v1_unseen_family_pipeline.joblib"
   },
-  "friday_metrics": {
-    "model": "FRIDAY @ THRESHOLD_F1",
-    "threshold": 0.63,
-    "accuracy": 0.6217036736841357,
-    "precision": 0.9961845300034686,
-    "recall": 0.0795229178708514,
-    "f1": 0.1472881882898967,
-    "roc_auc": 0.7314000272191884,
-    "pr_auc": 0.6911427703960941,
-    "TP": 22976.0,
-    "FP": 88.0,
-    "TN": 414234.0,
-    "FN": 265947.0,
-    "FP_rate": 0.00021239519021437432,
-    "FN_rate": 0.9204770821291486
-  },
-  "attack_families_in_training": [
-    "DoS GoldenEye",
-    "DoS Hulk",
-    "DoS Slowhttptest",
-    "DoS slowloris",
-    "FTP - Patator",
-    "Heartbleed",
-    "Infiltration",
-    "SSH - Patator",
-    "Web Attack - Brute Force",
-    "Web Attack - Sql Injection",
-    "Web Attack - XSS"
-  ],
-  "attack_families_in_final_test": [
-    "Bot",
-    "DDoS",
-    "PortScan"
-  ],
-  "top_features_mdi": [
-    "Bwd Packet Length Std",
-    "Max Packet Length",
-    "Packet Length Std",
-    "Bwd Packet Length Mean",
-    "Bwd Packet Length Max",
-    "Flow IAT Max",
-    "Packet Length Mean",
-    "Destination Port",
-    "Flow Packets/s",
-    "Total Length of Bwd Packets",
-    "Fwd IAT Std",
-    "Flow IAT Std",
-    "Idle Mean",
-    "Fwd IAT Mean",
-    "Fwd IAT Total"
-  ],
-  "known_limitations": [
-    "misuse detector: attack families absent from training are largely missed",
-    "per-flow only; no cross-flow / temporal aggregation",
-    "offline CSV input; no live capture in V1"
-  ]
+  "full_data_model": {
+    "training": "Monday\u2013Thursday + Friday",
+    "training_rows": 944013,
+    "friday_training_inclusive_metrics": {
+      "threshold": 0.5149999999999999,
+      "accuracy": 0.9990387418325051,
+      "precision": 0.9976794858956252,
+      "recall": 0.9999861554808721,
+      "f1": 0.9988314889527307,
+      "roc_auc": 0.9999869544473152,
+      "pr_auc": 0.9999655117225006,
+      "TN": 413650.0,
+      "FP": 672.0,
+      "FN": 4.0,
+      "TP": 288919.0,
+      "FPR": 0.0016219269070915858
+    },
+    "artifact": "artifacts/ids_v1_full_data_pipeline.joblib",
+    "evaluation_note": "Friday is included in training; these metrics are not a held-out generalization estimate."
+  }
 }
